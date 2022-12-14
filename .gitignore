@@ -1,3 +1,4 @@
 # Project exclude paths
-/target/
-/teavm-sandbox/target/
+sandbox
+**/target
+.idea
