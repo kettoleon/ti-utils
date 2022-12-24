@@ -23,6 +23,11 @@
             <artifactId>ti-saves</artifactId>
             <version>${project.version}</version>
         </dependency>
+        <dependency>
+            <groupId>org.jfree</groupId>
+            <artifactId>jfreechart</artifactId>
+            <version>1.5.3</version>
+        </dependency>
         <!-- icon packs (with order of preference) -->
         <dependency>
             <groupId>org.kordamp.ikonli</groupId>
