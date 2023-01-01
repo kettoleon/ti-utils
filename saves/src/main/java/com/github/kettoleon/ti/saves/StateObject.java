@@ -185,4 +185,13 @@ public abstract class StateObject {
         }
         return false;
     }
+
+    public List<String> getFields(){
+        ArrayList<String> fieldNames = new ArrayList<>();
+        Iterator<String> fni = node.fieldNames();
+        while(fni.hasNext()){
+            fieldNames.add(fni.next());
+        }
+        return fieldNames;
+    }
 }

@@ -1,23 +1,59 @@
 package com.github.kettoleon.ti.dashboard;
 
+import com.github.kettoleon.ti.meta.MetaRepository;
+import com.github.kettoleon.ti.meta.model.HabModule;
+import com.github.kettoleon.ti.meta.model.Project;
+import com.github.kettoleon.ti.saves.SaveFile;
+
 import java.io.PrintWriter;
 import java.io.StringWriter;
+import java.nio.file.Path;
+import java.util.Comparator;
+import java.util.List;
 
 public class TestHabDesigner {
 
     public static void main(String[] args) {
 
-        int maxSlots = 20;
+        MetaRepository mr = new MetaRepository(Path.of(args[0]));
+        SaveFile save = new SaveFile(Path.of(args[1]),mr);
 
-        for (int i = 1; i <= maxSlots; i++) {
-            ComputeHab computeStation = new ComputeHab(i, 2);
-            computeStation.computeUntilStable();
-            if (computeStation.totalSlots() > maxSlots) {
-                break;
-            }
+        List<Project> finishedProjects = save.getPlayerFaction().getFinishedProjects();
 
-            System.out.println(computeStation);
-        }
+        mr.getAll(HabModule.class).stream()
+                .filter(hm -> !hm.isDestroyed())
+                .filter(hm -> hm.getTier() == 3)
+                .filter(hm -> hm.getRequiredProject().map(finishedProjects::contains).orElse(true))
+                .sorted(Comparator.comparing(HabModule::getBalanceMoney).reversed())
+                .forEach( hm -> System.out.println(hm.getFriendlyName() + ": "+hm.getRequiredProjectName()));
+
+
+        //TODO options:
+        //Tier Level
+        //Hab or Station
+        //Maximize Station: [Diff. research | Money | ShipBuilding | Antimatter | Mc] | Hab: [Population]
+        //Balanced or not
+        //Money [ on | off ]
+        // with nanofacturing (0, 1, or max), with geriatrics (enabled or disabled), with space resort (enabled or disabled)
+        //Power [ on | off ]
+        // Select orbit or power source (option for urgent build?)  [ Solar | Fission | Fusion ]
+        //Water and volatiles [ on | off ]
+        //Defense Num battlestations (min, max), num marine barracks (min, max)
+        //Mc balancing [ on | off ]
+
+
+//
+//        int maxSlots = 20;
+//
+//        for (int i = 1; i <= maxSlots; i++) {
+//            ComputeHab computeStation = new ComputeHab(i, 2);
+//            computeStation.computeUntilStable();
+//            if (computeStation.totalSlots() > maxSlots) {
+//                break;
+//            }
+//
+//            System.out.println(computeStation);
+//        }
 
     }
 

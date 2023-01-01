@@ -26,6 +26,14 @@ public class Faction extends StateObject {
     //fleets
     //unassignedOrgs
 
+    public List<String> getFinishedProjectNames(){
+        return getStringList("finishedProjectNames");
+    }
+
+    public List<Project> getFinishedProjects(){
+        return getMetaReferenceArray("finishedProjectNames", Project.class);
+    }
+
     public String getMostPowerfulHumanEnemy() {
         return getNode().path("mostPowerfulHumanEnemy").toPrettyString() + "";
     }
